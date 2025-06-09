@@ -8,6 +8,7 @@ Open the project in Visual Studio.
 Open the terminal (Bash or Command Prompt) and run the following commands one by one:
 
   dotnet add package Pomelo.EntityFrameworkCore.MySql
+  
   dotnet add package Microsoft.EntityFrameworkCore.Tools
 
 **Step 3**: Create Initial Migration
