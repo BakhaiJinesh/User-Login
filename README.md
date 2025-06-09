@@ -1,5 +1,6 @@
 # User Login
 **Setup and Database Migration Instructions**
+
 **Step 1**: Open Project
 Open the project in Visual Studio.
 
