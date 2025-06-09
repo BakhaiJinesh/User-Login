@@ -1,0 +1,22 @@
+﻿@model User_Login.Model.UserModel
+
+<h2>Edit User</h2>
+
+@using (Html.BeginForm("Edit", "Account", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.UserId)
+
+    <div>
+        <label>Username:</label>
+        @Html.TextBoxFor(m => m.Username)
+    </div>
+    <div>
+        <label>Email:</label>
+        @Html.TextBoxFor(m => m.Email)
+    </div>
+    <div>
+        <label>Password:</label>
+        @Html.PasswordFor(m => m.Password)
+    </div>
+    <button type="submit">Update</button>
+}

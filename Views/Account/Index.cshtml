@@ -1,0 +1,69 @@
+﻿@model List<User_Login.Model.UserModel>
+
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@{
+    int loggedUserId = 0;
+    var userIdString = HttpContextAccessor.HttpContext.Session.GetString("UserId");
+    if (!string.IsNullOrEmpty(userIdString))
+    {
+        loggedUserId = int.Parse(userIdString);
+    }
+
+    var loggedUser = Model.FirstOrDefault(u => u.UserId == loggedUserId);
+    var otherUsers = Model.Where(u => u.UserId != loggedUserId).OrderBy(u => u.Username).ToList();
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+<div class="container mt-4">
+    <h2 class="mb-4">User Profiles</h2>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            Logged in as: <strong>@HttpContextAccessor.HttpContext.Session.GetString("Username")</strong>
+            <a href="@Url.Action("Logout", "Account")" class="btn btn-link btn-sm ms-2">Logout</a>
+        </div>
+        <div>
+            <a href="@Url.Action("Register", "Account")" class="btn btn-primary btn-sm">Add New User</a>
+        </div>
+    </div>
+
+    <table class="table table-bordered table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                @* <th>Password</th> *@
+                <th class="text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (loggedUser != null)
+            {
+                <tr class="fw-bold table-primary">
+                    <td>@loggedUser.Username</td>
+                    <td>@loggedUser.Email</td>
+                    @* <td>@loggedUser.Password</td> *@
+                    <td class="text-center">
+                        <a href="@Url.Action("Edit", "Account", new { id = loggedUser.UserId })" class="btn btn-sm btn-warning me-2">Edit</a>
+                        <span class="text-muted" title="Cannot delete yourself" style="cursor: not-allowed;">Delete</span>
+                    </td>
+                </tr>
+            }
+
+            @foreach (var user in otherUsers)
+            {
+                <tr>
+                    <td>@user.Username</td>
+                    <td>@user.Email</td>
+                    @* <td>@user.Password</td> *@
+                    <td class="text-center">
+                        <a href="@Url.Action("Edit", "Account", new { id = user.UserId })" class="btn btn-sm btn-warning me-2">Edit</a>
+                        <a href="@Url.Action("Delete", "Account", new { id = user.UserId })" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?');">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
