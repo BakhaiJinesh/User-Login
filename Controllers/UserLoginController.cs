@@ -85,9 +85,6 @@ namespace User_Login.Controllers
         // Register GET
         public ActionResult Register()
         {
-            if (HttpContext.Session.GetString("UserId") == null)
-                return RedirectToAction("Login");
-
             return View();
         }
 
